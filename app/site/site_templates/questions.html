@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+
+{% block head %}
+<title>posts</title>>
+{% endblock %}
+
+{% block body %}
+<hr>
+<h2>Create New Interview Question:</h2>
+<h4>Or, select from the list!</h4>
+<form action="/posts" method="POST">
+    Question: <input type="text" name="title" id="title">
+    <br>
+    Answer: <input type="text" name="content" id="content">
+    <br>
+    <input type="submit" value="Post">
+    <br>
+</form>
+<hr>
+
+<h1>Your questions & answers.</h1>
+
+{% for question in questions %}
+<h4>{{question.question}}</h4>
+<p>{{question.answer}}</p>
+
+<a href="/questions/delete/{{question.id}}">Delete</a>
+<a href="/questions/edit/{{question.id}}">Edit</a>
+<br>
+{% endfor %}
+{% endblock %}
