@@ -69,8 +69,11 @@ def delete_question(current_user_token, id):
 @api.route('/userprofile', methods=['POST'])
 @token_required
 def create_profile(current_user_token):
+    id = ""
     first_name = request.json['first_name']
     last_name = request.json['last_name']
+    email = ""
+    password=""
     linkedin = request.json['linkedin']
     other_link_name = request.json['other_link_name']
     other_link = request.json['other_link']
@@ -79,7 +82,7 @@ def create_profile(current_user_token):
 
     print('Profile created!')
 
-    user_profile = User(first_name, last_name, linkedin, other_link_name, other_link, summary)
+    user_profile = User(id, first_name, last_name, email, password, linkedin, other_link_name, other_link, summary)
     # token=token
     db.session.add(user_profile)
     db.session.commit()
@@ -107,13 +110,13 @@ def get_single_user_profile(current_user_token, id):
 
 @api.route('/userprofile/<id>', methods=['POST', 'PUT'])
 @token_required
-def update_profile(current_user_token, id):
+def update_profile(id):
     user_profile = User.query.get(id)
+
     user_profile.linkedin = request.json['linkedin']
     user_profile.other_link_name = request.json['other_link_name']
     user_profile.other_link = request.json['other_link']
     user_profile.summary = request.json['summary']
-    user_profile.token = current_user_token.token
 
     db.session.commit()
     response = user_schema.dump(user_profile)
@@ -122,9 +125,10 @@ def update_profile(current_user_token, id):
 
 @api.route('/userprofile/<id>', methods=['DELETE'])
 @token_required
-def delete_profile(current_user_token, id):
+def delete_profile(id):
     user_profile = User.query.get(id)
     db.session.delete(user_profile)
     db.session.commit()
     response = user_schema.dump(user_profile)
     return jsonify(response)
+    
