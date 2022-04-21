@@ -43,7 +43,7 @@ def signin():
                     'You were successful in your initiation. Congratulations, and welcome to the Jedi Knights', 'auth-sucess')
                 return redirect(url_for('site.profile'))
             else:
-                flash('You do not have access to this content.', 'auth-failed')
+                flash('You don\'t have access to this content.', 'auth-failed')
                 return redirect(url_for('auth.signin'))
     except:
         raise Exception('Invalid Form Data: Please Check your Form')
